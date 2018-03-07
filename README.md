@@ -1,5 +1,5 @@
 
-![alt text](screenshots/ReadmeScreenshot.png "Class outline")
+![alt text](screenshots/ReadmeScreenshot.jpg "Class outline")
 
 
 
