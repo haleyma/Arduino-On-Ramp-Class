@@ -26,14 +26,24 @@ Blue:  https://youtu.be/giVNOM73hOc
 Red:  https://youtu.be/Gdnnvital-8
 
 Introduction
+
 Break Out: Circuits and Components
+
 	Ultrasound Sensor
+	
 Break Out: IDE and Software
+
 	Piezo Buzzer
+	
 Fixing Driver Issues
+
 Install Libraries
+
 Break Out: Breadboards and Arduino Uno Board
+
 	Addressable RGB LED strip
+	
 Build the Intruder Alarm
+
 Local and Online Resources for further learning
 
