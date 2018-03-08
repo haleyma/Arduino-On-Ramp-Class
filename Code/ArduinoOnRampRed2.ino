@@ -12,7 +12,7 @@
  
 // Select which PWM-capable pins are to be used.
 #define PIN 8
-int Pixels = 13;
+int Pixels = 22;
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
