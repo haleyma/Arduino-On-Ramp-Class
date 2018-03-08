@@ -2,7 +2,7 @@
 #include <NewTone.h>
 // include SPI, MP3, Servo and SD libraries
 #include <SPI.h>             // We will use the hardware SPI pins: CLK (13), MISO (12), MOSI (11)
-#include "Adafruit_VS1053.h"
+// #include "Adafruit_VS1053.h"  // This library is not needed -- CHS
 #include <SD.h>
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
@@ -58,7 +58,7 @@ void loop(){
       unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
       unsigned int distance = uS / US_ROUNDTRIP_CM;
       Serial.println(distance);
-      if(distance < 10){
+      if( (distance) && (distance < 10)) { // sonar.ping() gives 0 distances occasionally (CHS)
          triggered = true;
       }
    }
