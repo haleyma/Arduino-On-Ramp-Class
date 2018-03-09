@@ -17,8 +17,13 @@
 #endif
  
 // Select which PWM-capable pins are to be used.
-#define PIN 8
-int Pixels = 13;
+#define NEOPIXEL_PIN 8
+#define TRIGGER_PIN  6  // Arduino pin tied to trigger pin on the ultrasonic sensor.
+#define ECHO_PIN     7  // Arduino pin tied to echo pin on the ultrasonic sensor.
+#define RANGE_POT_PIN 3  // Pin for range potentiometer
+#define ALARM_PIN 3
+
+int Pixels = 22;  // Number of pixels on LED strip -- int for calculations later
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -27,20 +32,22 @@ int Pixels = 13;
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(Pixels, PIN, NEO_GRB + NEO_KHZ800);
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(Pixels, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
  
-#define TRIGGER_PIN  6  // Arduino pin tied to trigger pin on the ultrasonic sensor.
-#define ECHO_PIN     7  // Arduino pin tied to echo pin on the ultrasonic sensor.
+
 #define MAX_DISTANCE 200 // Maximum distance we want to ping for (in centimeters).
  
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and maximum distance.
 boolean triggered = false;
  
  
-#define ALARM 3
+
 float sinVal;
 int toneVal;
 long MillisAtTriggered=-1;
+
+
 
 // Setup -- run once
 void setup(){
@@ -48,8 +55,8 @@ void setup(){
    strip.begin();
    strip.show(); //Initialize strip to all off
    
-   pinMode(ALARM, OUTPUT);
- 
+   pinMode(ALARM_PIN, OUTPUT);
+   pinMode(RANGE_POT_PIN,INPUT);
  
   delay(5000);
 Serial.begin(9600); // Open serial monitor at 115200 baud to see ping results.  
@@ -62,6 +69,8 @@ void loop()
 {
     
     long secsSinceTriggered;
+    int potValue;
+    int range;
     
     if(triggered == true) {
       secsSinceTriggered=(millis() - MillisAtTriggered) / 10000;
@@ -82,11 +91,18 @@ void loop()
       delay(50);// Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
       unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
       unsigned int distance = uS / US_ROUNDTRIP_CM;
+      potValue=analogRead(RANGE_POT_PIN);
+      range=map(potValue,0,1023,1,MAX_DISTANCE);  
 #ifdef DEBUG_CHS
       Serial.print("Distance: " );
-      Serial.println(distance);
+      Serial.print(distance);
+      Serial.print(" potValue: ");
+      Serial.print(potValue);
+      Serial.print(" range: ");
+      Serial.println(range);
 #endif
-      if( (distance) && (distance < 10)) {
+      
+      if( (distance) && (distance < range)) {
          triggered = true;
 	 MillisAtTriggered=millis();
       }
@@ -95,7 +111,7 @@ void loop()
 
 void alert_off() {
    colorWipe(strip.Color(0,0,0),50); // Turn strip off
-   noNewTone(ALARM);
+   noNewTone(ALARM_PIN);
 }
 
 void alert(){
@@ -112,7 +128,7 @@ void alert(){
     sinVal = (sin(x*(3.1412/180)));
     // generate a frequency from the sin value
     toneVal = 2000+(int(sinVal*1000));
-    NewTone(ALARM, toneVal);
+    NewTone(ALARM_PIN, toneVal);
   }
 }
 
