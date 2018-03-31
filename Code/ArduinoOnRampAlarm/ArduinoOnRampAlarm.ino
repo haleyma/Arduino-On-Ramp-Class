@@ -20,9 +20,14 @@
 #endif
  
 // Select which PWM-capable pins are to be used.
-#define NEOPIXEL_PIN 8
+#define NEOPIXEL_PIN 8  // Control pin for neopixel strip
 #define TRIGGER_PIN  6  // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define ECHO_PIN     7  // Arduino pin tied to echo pin on the ultrasonic sensor.
+#define ALARM_PIN 3     // Pin tied to piezo alarm
+#define ALARM_POPPED_LED_PIN 13  // Pin 13 has an on-board LED on newer Arduino boards. We will
+// light it if the alarm went off and the Arduino was not reset. You could hang a big phatt red LED
+// off pin 13 and bring it to the outside of the box if you wanted to.
+
 #ifdef RANGE_POT
 #define RANGE_POT_PIN 4  // Pin for range potentiometer
 #endif
@@ -32,7 +37,7 @@
 #define RANGE_POT_MAX 670   
 
 
-#define ALARM_PIN 3
+
 
 int Pixels = 22;  // Number of pixels on LED strip -- int for calculations later
 
@@ -70,7 +75,9 @@ void setup(){
    
    strip.begin();
    strip.show(); //Initialize strip to all off
-   
+
+   pinMode(ALARM_POPPED_LED_PIN,OUTPUT);
+   digitalWrite(ALARM_POPPED_LED_PIN,LOW);   
    pinMode(ALARM_PIN, OUTPUT);
 #ifdef RANGE_POT   
    pinMode(RANGE_POT_PIN,INPUT);
@@ -92,6 +99,7 @@ void loop()
     int range;
     
     if(triggered == true) {
+      digitalWrite(ALARM_POPPED_LED_PIN,HIGH);
       secsSinceTriggered=(millis() - MillisAtTriggered) / 1000;
 #ifdef DEBUG_CHS      
       Serial.print("secsSinceTriggered: ");
@@ -181,6 +189,4 @@ void colorWipeBack(uint32_t c, uint8_t wait) {
     delay(wait);
   }
 }
-
- 
 
