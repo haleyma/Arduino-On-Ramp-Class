@@ -144,6 +144,3 @@ void colorWipeBack(uint32_t c, uint8_t wait) {
     delay(wait);
   }
 }
-
- 
-

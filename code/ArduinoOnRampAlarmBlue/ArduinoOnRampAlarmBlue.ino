@@ -11,7 +11,7 @@
 #endif
  
 // Select which PWM-capable pins are to be used.
-#define NEOPIXEL_PIN 8 // Control pin for neopixel strip
+#define NEOPIXEL_PIN 3 // Control pin for neopixel strip
 int Pixels = 22; // set the number of neopixels on the strip
 
 // Parameter 1 = number of pixels in strip
@@ -23,8 +23,8 @@ int Pixels = 22; // set the number of neopixels on the strip
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(Pixels, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
  
-#define TRIGGER_PIN  6  // Arduino pin tied to trigger pin on the ultrasonic sensor.
-#define ECHO_PIN     7  // Arduino pin tied to echo pin on the ultrasonic sensor.
+#define TRIGGER_PIN  4  // Arduino pin tied to trigger pin on the ultrasonic sensor.
+#define ECHO_PIN     5  // Arduino pin tied to echo pin on the ultrasonic sensor.
 #define MAX_DISTANCE 200 // Maximum distance we want to ping for (in centimeters).
 
 // Rough time before alarm goes silent and re-arms.
@@ -37,7 +37,7 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and
 boolean triggered = false;
  
  
-#define PIEZO_PIN 3 // Arduino pin tied to piezo buzzer
+#define PIEZO_PIN 2 // Arduino pin tied to piezo buzzer
 
 #define ALARM_POPPED_LED_PIN 13  // Pin 13 has an on-board LED on newer Arduino boards. We will
 // light it if the alarm went off and the Arduino was not reset. You could hang a big phatt red LED
@@ -175,6 +175,3 @@ void colorWipe(uint32_t c, uint8_t wait) {
     delay(wait);
   }
 }  
-
-
-
