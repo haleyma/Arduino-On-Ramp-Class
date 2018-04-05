@@ -96,21 +96,26 @@ void loop(){
    }
 }
 
-
-void alert()   {
-  play_alarm();
-  delay(200);
-  redFlash();  //call redFlash function
-  delay(200);
-  blueFlash();  //Call blueFlash function
-
-   
-}
-
 void alert_off(){
   colorWipe(strip.Color(0,0,0),50); //Turn strip off
   noNewTone(PIEZO_PIN);
 }
+ 
+void alert(){
+
+   play_alarm();
+
+   colorWipe(strip.Color(255, 0, 0), 50); //red
+   
+   colorWipe(strip.Color(0, 0, 0), 50); //off
+
+   colorWipeBack(strip.Color(255, 0, 0), 50); //redBack
+   
+   colorWipeBack(strip.Color(0,0,0), 50);// offBack
+   
+   
+  }
+
 
 void play_alarm(void) {
   for (int x=0; x<180; x++) {
@@ -122,51 +127,6 @@ void play_alarm(void) {
   }
 }
 
-
-void redFlash()
-{
-   red(strip.Color(255, 0, 0), 15);  //call Red function - pass it color and delay values
-   red(strip.Color(0, 0, 0), 0);  //Turn off all pixels
-   delay(100);
-   red(strip.Color(255, 0, 0), 15);  //repeat
-   red(strip.Color(0, 0, 0), 0);
-}  //end redFlash
-
-void blueFlash()
-{
-   blue(strip.Color(0, 0, 255), 15);  //call blue function - pass it color and delay values
-   blue(strip.Color(0, 0, 0), 0);  //Turn off all pixels
-   delay(100);
-   blue(strip.Color(0, 0, 255), 15);  //repeat
-   blue(strip.Color(0, 0, 0), 0);
-} //end blueFlash
-
-void red(uint32_t c, uint8_t wait)  //passed color (c) and delay (wait) values
-{
-   int i = 0;  //start at pixel 0
-   while (i < Pixels/2)  //loop until you reach half the pixels
-   {
-      strip.setPixelColor(i, c);  //sets the pixel and color
-      i++;
-   }
-   strip.setBrightness(156);  //sets the pixel brightness
-   strip.show();  //turns on the pixels
-   delay(wait);  //wait designated time (wait)
-}  //end red
-
-void blue(uint32_t c, uint8_t wait)  //passed color (c) and delay (wait) values
-{
-   int i = Pixels+1;  //start at the last pixel
-   while (i > Pixels/2-1)  //loop until you reach half the pixels
-   {
-      strip.setPixelColor(i, c);  //sets pixel and color  
-      i--;
-   }
-   strip.setBrightness(255);  //sets brightness
-   strip.show();  //turns on pixels
-   delay(wait);  //wait designated time (wait)  
-} //end blue 
-
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
   for(uint16_t i=0; i<strip.numPixels(); i++) {
@@ -174,7 +134,13 @@ void colorWipe(uint32_t c, uint8_t wait) {
     strip.show();
     delay(wait);
   }
-}  
+}
 
-
-
+// Fill the dots one after the other with a color
+void colorWipeBack(uint32_t c, uint8_t wait) {
+  for(uint16_t i=(Pixels - 1); i>0; i--) {
+    strip.setPixelColor(i, c);
+    strip.show();
+    delay(wait);
+  }
+}
