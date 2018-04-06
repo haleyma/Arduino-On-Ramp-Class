@@ -7,12 +7,11 @@
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
   #include <avr/power.h>
-
 #endif
 
 // Select which PWM-capable pins are to be used.
 #define NEOPIXEL_PIN 8 // Control pin for neopixel strip
-int PIXEL_COUNT = 22;  // Set the number of neopixels on the strip
+int PIXEL_COUNT = 22; // set the number of neopixels on the strip
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -44,15 +43,13 @@ long MillisAtTriggered=-1;
 // Setup -- run once
 
 void setup(){
+  strip.begin();
+  strip.show(); //Initialize strip to all off
 
-   strip.begin();
-   strip.show(); //Initialize strip to all off
+  pinMode(PIEZO_PIN, OUTPUT);
 
-   pinMode(PIEZO_PIN, OUTPUT);
-
-   pinMode(ALARM_POPPED_LED_PIN, OUTPUT);
-   digitalWrite(ALARM_POPPED_LED_PIN, LOW);
-
+  pinMode(ALARM_POPPED_LED_PIN, OUTPUT);
+  digitalWrite(ALARM_POPPED_LED_PIN, LOW);
 
   delay(5000);
   Serial.begin(115200); // Open serial monitor at 115200 baud to see ping results.
@@ -61,44 +58,42 @@ void setup(){
 
 
 void loop(){
+  long secsSinceTriggered;
 
-    long secsSinceTriggered;
-
-    if(triggered == true){
-      secsSinceTriggered=(millis() - MillisAtTriggered) / 1000;
-      digitalWrite(ALARM_POPPED_LED_PIN, HIGH);
-
-      if(secsSinceTriggered >= ALARM_REARM_TIME) {
-        triggered = false;
-        alert_off();
-      } else {
-        alert();
-      }
+  if(triggered == true){
+    secsSinceTriggered=(millis() - MillisAtTriggered) / 1000;
+    digitalWrite(ALARM_POPPED_LED_PIN, HIGH);
+  
+    if(secsSinceTriggered >= ALARM_REARM_TIME) {
+      triggered = false;
+      alert_off();
+    } else {
+      alert();
     }
-    else{
-      delay(50);// Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
-      unsigned int distance = sonar.ping_cm(); // Send ping, get distance in cm and print result (0 = outside set distance range)
-      Serial.println(distance);
-      if(distance >0 &&  distance < TRIGGER_DISTANCE){
-         triggered = true;
-         MillisAtTriggered=millis();
-      }
-   }
+  }
+  else{
+    delay(50);// Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
+    unsigned int distance = sonar.ping_cm(); // Send ping, get distance in cm and print result (0 = outside set distance range)
+    Serial.print("distance: ");
+    Serial.println(distance);
+    if(distance >0 &&  distance < TRIGGER_DISTANCE){
+      triggered = true;
+      MillisAtTriggered=millis();
+    }
+  }
 }
 
 void alert_off(){
-  colorWipe(strip.Color(0,0,0),50); //Turn strip off
   noNewTone(PIEZO_PIN);
 }
 
 void alert(){
-   play_alarm(2000, 3000, 2);
-   colorWipe(strip.Color(255, 0, 0), 50); //red
-   colorWipe(strip.Color(0, 0, 0), 50); //off
-   colorWipeBack(strip.Color(255, 0, 0), 50); //redBack
-   colorWipeBack(strip.Color(0,0,0), 50);// offBack
+  play_alarm(2000, 3000, 2);
+  colorWipe(strip.Color(255, 0, 0), 50, true); //red
+  colorWipe(strip.Color(  0, 0, 0), 50, true); //off
+  colorWipe(strip.Color(255, 0, 0), 50, false); //redBack
+  colorWipe(strip.Color(  0, 0, 0), 50, false);// offBack
 }
-
 
 void play_alarm(int lowFreq, int highFreq, int wait) {
   for (int x=0; x<180; x++) {
@@ -112,19 +107,21 @@ void play_alarm(int lowFreq, int highFreq, int wait) {
 }
 
 // Fill the dots one after the other with a color
-void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
+void colorWipe(uint32_t color, uint8_t wait, bool forward) {
+  int p;
+
+  for(int i=0; i<PIXEL_COUNT; i++) {
+    if (forward){
+      p = i;
+      Serial.print("forward:  ");
+    } else {
+      Serial.print("backward: ");
+      p = PIXEL_COUNT - i -1;
+    }
+    Serial.println(p);
+    strip.setPixelColor(p, color);
     strip.show();
     delay(wait);
   }
 }
 
-// Fill the dots one after the other with a color
-void colorWipeBack(uint32_t c, uint8_t wait) {
-  for(uint16_t i=(PIXEL_COUNT - 1); i>0; i--) {
-    strip.setPixelColor(i, c);
-    strip.show();
-    delay(wait);
-  }
-}

@@ -7,12 +7,11 @@
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
   #include <avr/power.h>
-
 #endif
 
 // Select which PWM-capable pins are to be used.
 #define NEOPIXEL_PIN 8 // Control pin for neopixel strip
-int PIXEL_COUNT = 22;  // Set the number of neopixels on the strip
+int PIXEL_COUNT = 22; // set the number of neopixels on the strip
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -44,15 +43,13 @@ long MillisAtTriggered=-1;
 // Setup -- run once
 
 void setup(){
+  strip.begin();
+  strip.show(); //Initialize strip to all off
 
-   strip.begin();
-   strip.show(); //Initialize strip to all off
+  pinMode(PIEZO_PIN, OUTPUT);
 
-   pinMode(PIEZO_PIN, OUTPUT);
-
-   pinMode(ALARM_POPPED_LED_PIN, OUTPUT);
-   digitalWrite(ALARM_POPPED_LED_PIN, LOW);
-
+  pinMode(ALARM_POPPED_LED_PIN, OUTPUT);
+  digitalWrite(ALARM_POPPED_LED_PIN, LOW);
 
   delay(5000);
   Serial.begin(115200); // Open serial monitor at 115200 baud to see ping results.
@@ -61,46 +58,43 @@ void setup(){
 
 
 void loop(){
+  long secsSinceTriggered;
 
-    long secsSinceTriggered;
-
-    if(triggered == true){
-      secsSinceTriggered=(millis() - MillisAtTriggered) / 1000;
-      digitalWrite(ALARM_POPPED_LED_PIN, HIGH);
-
-      if(secsSinceTriggered >= ALARM_REARM_TIME) {
-        triggered = false;
-        alert_off();
-      } else {
-        alert();
-      }
+  if(triggered == true){
+    secsSinceTriggered=(millis() - MillisAtTriggered) / 1000;
+    digitalWrite(ALARM_POPPED_LED_PIN, HIGH);
+  
+    if(secsSinceTriggered >= ALARM_REARM_TIME) {
+      triggered = false;
+      alert_off();
+    } else {
+      alert();
     }
-    else{
-      delay(50);// Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
-      unsigned int distance = sonar.ping_cm(); // Send ping, get distance in cm and print result (0 = outside set distance range)
-      Serial.print("distance: ");
-      Serial.println(distance);
-      if(distance >0 &&  distance < TRIGGER_DISTANCE){
-         triggered = true;
-         MillisAtTriggered=millis();
-      }
-   }
+  }
+  else{
+    delay(50);// Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
+    unsigned int distance = sonar.ping_cm(); // Send ping, get distance in cm and print result (0 = outside set distance range)
+    Serial.print("distance: ");
+    Serial.println(distance);
+    if(distance >0 &&  distance < TRIGGER_DISTANCE){
+      triggered = true;
+      MillisAtTriggered=millis();
+    }
+  }
 }
 
-
 void alert_off(){
-  colorWipe(strip.Color(0,0,0),50); //Turn strip off
   noNewTone(PIEZO_PIN);
 }
 
-void alert()   {
+void alert(){
   play_alarm(2000, 3000, 2);
   delay(200);
-  redFlash();  //call redFlash function
+  flash(strip.Color(255, 0, 0), 156, 15, true);  // flash blue
+  flash(strip.Color(255, 0, 0), 156, 15, true);  // flash blue
   delay(200);
-  blueFlash();  //Call blueFlash function
-
-
+  flash(strip.Color(0, 0, 255), 255, 15, false);  // flash red
+  flash(strip.Color(0, 0, 255), 255, 15, false);  // flash red
 }
 
 void play_alarm(int lowFreq, int highFreq, int wait) {
@@ -114,56 +108,31 @@ void play_alarm(int lowFreq, int highFreq, int wait) {
   }
 }
 
-
-void redFlash()
+void flash(uint32_t color, int brightness, uint8_t wait, bool forward)
 {
-   red(strip.Color(255, 0, 0), 15);  //call Red function - pass it color and delay values
-   red(strip.Color(0, 0, 0), 0);  //Turn off all pixels
-   delay(100);
-   red(strip.Color(255, 0, 0), 15);  //repeat
-   red(strip.Color(0, 0, 0), 0);
-}  //end redFlash
+   halfWipe(color, brightness, wait, forward);  //call Red function - pass it color and delay values
+   halfWipe(strip.Color(0, 0, 0), brightness,  100, forward);  //Turn off all pixels
+}
 
-void blueFlash()
+void halfWipe(uint32_t color, int brightness, uint8_t wait, bool forward)
 {
-   blue(strip.Color(0, 0, 255), 15);  //call blue function - pass it color and delay values
-   blue(strip.Color(0, 0, 0), 0);  //Turn off all pixels
-   delay(100);
-   blue(strip.Color(0, 0, 255), 15);  //repeat
-   blue(strip.Color(0, 0, 0), 0);
-} //end blueFlash
-
-void red(uint32_t c, uint8_t wait)  //passed color (c) and delay (wait) values
-{
+   int p;
    int i = 0;  //start at pixel 0
    while (i < PIXEL_COUNT/2)  //loop until you reach half the pixels
    {
-      strip.setPixelColor(i, c);  //sets the pixel and color
+      if (forward){
+        p = i;
+        Serial.print("forward:  ");
+      } else {
+        Serial.print("backward: ");
+        p = PIXEL_COUNT - i -1;
+      }
+      Serial.println(p);
+      strip.setPixelColor(p, color);  //sets the pixel and color
       i++;
    }
-   strip.setBrightness(156);  //sets the pixel brightness
+   strip.setBrightness(brightness);  //sets the pixel brightness
    strip.show();  //turns on the pixels
    delay(wait);  //wait designated time (wait)
-}  //end red
-
-void blue(uint32_t c, uint8_t wait)  //passed color (c) and delay (wait) values
-{
-   int i = PIXEL_COUNT+1;  //start at the last pixel
-   while (i > PIXEL_COUNT/2-1)  //loop until you reach half the pixels
-   {
-      strip.setPixelColor(i, c);  //sets pixel and color
-      i--;
-   }
-   strip.setBrightness(255);  //sets brightness
-   strip.show();  //turns on pixels
-   delay(wait);  //wait designated time (wait)
-} //end blue
-
-// Fill the dots one after the other with a color
-void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
-    strip.show();
-    delay(wait);
-  }
 }
+
