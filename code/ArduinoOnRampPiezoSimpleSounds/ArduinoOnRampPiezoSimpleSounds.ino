@@ -1,8 +1,9 @@
-#define PIEZO_PIN 2
+#include "pitches.h"
+
+#define PIEZO_PIN 3
 
 int numTones = 10;
-int tones[] = {261, 277, 294, 311, 330, 349, 370, 392, 415, 440};
-//            mid C  C#   D    D#   E    F    F#   G    G#   A
+int tones[] = { NOTE_C4, NOTE_CS4, NOTE_D4, NOTE_DS4, NOTE_E4, NOTE_F4, NOTE_FS4, NOTE_G4, NOTE_GS4, NOTE_A4 };
 
 void setup()
 {

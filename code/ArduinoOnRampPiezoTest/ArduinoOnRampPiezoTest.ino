@@ -1,18 +1,25 @@
-#define PIEZO_PIN 2
- 
+#define PIEZO_PIN 3
+
 float sinVal;
 int toneVal;
 void setup() {
-  pinMode(PIEZO_PIN, OUTPUT);
+//  pinMode(PIEZO_PIN, OUTPUT);
 }
- 
-void loop() {
+
+
+
+void play_alarm(int lowFreq, int highFreq, int wait) {
   for (int x=0; x<180; x++) {
-    // convert degrees to radians then obtain sin value
+    // convert degrees to radians then obtain sin value (from 0 to 1 back to 0)
     sinVal = (sin(x*(3.1412/180)));
     // generate a frequency from the sin value
-    toneVal = 2000+(int(sinVal*1000));
+    toneVal = lowFreq+(int(sinVal*(highFreq-lowFreq)));
     tone(PIEZO_PIN, toneVal);
+    delay(wait);
   }
-       
-delay(100); }
+}
+
+void loop() {
+  play_alarm(2000, 3000, 2);
+  delay(100);
+}
