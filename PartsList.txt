@@ -3,10 +3,10 @@ Parts List
 
 Decatur Makers Acrylic Uno/Breadboard base
 Uno Board
-2 Nylon screws (4-40, ½ inch)
+2 Nylon screws (4-40, Â½ inch)
 3 Nylon nuts
 4 bumper pads
-½ (400pt) breadboard
+Â½ (400pt) breadboard
 Uno Cord
 Power wall wart
 LED strip
@@ -18,123 +18,4 @@ Power Converter board
 Ultrasound Sensor
 Piezo buzzer
 
-Arduino On Ramp Class
-Parts List
-
-Decatur Makers Acrylic Uno/Breadboard base
-Uno Board
-2 Nylon screws (4-40, ½ inch)
-3 Nylon nuts
-4 bumper pads
-½ (400pt) breadboard
-Uno Cord
-Power wall wart
-LED strip
-
-Baggie:
-Uno package with extra headers and 1 Nylon nut
-7 Wires
-Power Converter board
-Ultrasound Sensor
-Piezo buzzer
-
-
-
-
-
-
-
-
-
-
-
-Arduino On Ramp Class
-Parts List
-
-Decatur Makers Acrylic Uno/Breadboard base
-Uno Board
-2 Nylon screws (4-40, ½ inch)
-3 Nylon nuts
-4 bumper pads
-½ (400pt) breadboard
-Uno Cord
-Power wall wart
-LED strip
-
-Baggie:
-Uno package with extra headers and 1 Nylon nut
-7 Wires
-Power Converter board
-Ultrasound Sensor
-Piezo buzzer
-
-
-Arduino On Ramp Class
-Parts List
-
-Decatur Makers Acrylic Uno/Breadboard base
-Uno Board
-2 Nylon screws (4-40, ½ inch)
-3 Nylon nuts
-4 bumper pads
-½ (400pt) breadboard
-Uno Cord
-Power wall wart
-LED strip
-
-Baggie:
-Uno package with extra headers and 1 Nylon nut
-7 Wires
-Power Converter board
-Ultrasound Sensor
-Piezo buzzer
-
-
-
-
-
-
-
-
-
-
-Arduino On Ramp Class
-Parts List
-
-Decatur Makers Acrylic Uno/Breadboard base
-Uno Board
-2 Nylon screws (4-40, ½ inch)
-3 Nylon nuts
-4 bumper pads
-½ (400pt) breadboard
-Uno Cord
-Power wall wart
-LED strip
-
-Baggie:
-Uno package with extra headers and 1 Nylon nut
-7 Wires
-Power Converter board
-Ultrasound Sensor
-Piezo buzzer
-
-
-Arduino On Ramp Class
-Parts List
-
-Decatur Makers Acrylic Uno/Breadboard base
-Uno Board
-2 Nylon screws (4-40, ½ inch)
-3 Nylon nuts
-4 bumper pads
-½ (400pt) breadboard
-Uno Cord
-Power wall wart
-LED strip
-
-Baggie:
-Uno package with extra headers and 1 Nylon nut
-7 Wires
-Power Converter board
-Ultrasound Sensor
-Piezo buzzer
+Plastic carry container
