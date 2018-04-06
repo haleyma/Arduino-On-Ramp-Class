@@ -22,6 +22,9 @@
 ### ArduinoOnRampAlarmBlue
 * A completed project with police-like lights
 
+### ArduinoOnRampAlarmCHS
+* Charles Shapiro's elaborations with a 10sec timeout, US distance potentiometer, dim PIN13 LED at onset
+
 
 
 
