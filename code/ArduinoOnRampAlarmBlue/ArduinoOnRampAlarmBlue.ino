@@ -12,13 +12,14 @@
 
 // Select which PWM-capable pins are to be used.
 #define NEOPIXEL_PIN 8 // Control pin for neopixel strip
-int PIXEL_COUNT = 22; // set the number of neopixels on the strip
+int PIXEL_COUNT = 22;  // Set the number of neopixels on the strip
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
-#define TRIGGER_PIN  6  // Arduino pin tied to trigger pin on the ultrasonic sensor.
-#define ECHO_PIN     7  // Arduino pin tied to echo pin on the ultrasonic sensor.
-#define MAX_DISTANCE 200 // Maximum distance we want to ping for (in centimeters).
+#define TRIGGER_PIN        6 // Arduino pin tied to trigger pin on the ultrasonic sensor.
+#define ECHO_PIN           7 // Arduino pin tied to echo pin on the ultrasonic sensor.
+#define MAX_DISTANCE     200 // Maximum distance we want to ping for (in centimeters).
+#define TRIGGER_DISTANCE  10 // Maximum distance we want to ping for (in centimeters).
 
 // Rough time before alarm goes silent and re-arms.
 // The alarm takes about 7 seconds between time checks, so times less than 7 seconds here
@@ -54,9 +55,7 @@ void setup(){
 
 
   delay(5000);
-Serial.begin(115200); // Open serial monitor at 115200 baud to see ping results.
-
-
+  Serial.begin(115200); // Open serial monitor at 115200 baud to see ping results.
 }
 
 
@@ -74,21 +73,25 @@ void loop(){
         alert_off();
       } else {
         alert();
-
       }
     }
     else{
       delay(50);// Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
-      unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
-      unsigned int distance = uS / US_ROUNDTRIP_CM;
+      unsigned int distance = sonar.ping_cm(); // Send ping, get distance in cm and print result (0 = outside set distance range)
+      Serial.print("distance: ");
       Serial.println(distance);
-      if(distance >0 &&  distance < 10){
+      if(distance >0 &&  distance < TRIGGER_DISTANCE){
          triggered = true;
          MillisAtTriggered=millis();
       }
    }
 }
 
+
+void alert_off(){
+  colorWipe(strip.Color(0,0,0),50); //Turn strip off
+  noNewTone(PIEZO_PIN);
+}
 
 void alert()   {
   play_alarm(2000, 3000, 2);
@@ -98,11 +101,6 @@ void alert()   {
   blueFlash();  //Call blueFlash function
 
 
-}
-
-void alert_off(){
-  colorWipe(strip.Color(0,0,0),50); //Turn strip off
-  noNewTone(PIEZO_PIN);
 }
 
 void play_alarm(int lowFreq, int highFreq, int wait) {
