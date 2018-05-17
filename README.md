@@ -5,6 +5,7 @@ The goal of this class is to introduce a beginner to the world of micro-electron
 
 ## Prerequisites:
 1. Bring own laptop.  (No Chromebooks)
+INTRODUCTION VIDEO: https://www.youtube.com/watch?v=f_K5rICQLUk
 1. Download Arduino IDE.
     * Go to https://www.arduino.cc/en/Guide/HomePage
     * Scroll down to "Install the Arduino IDE"
