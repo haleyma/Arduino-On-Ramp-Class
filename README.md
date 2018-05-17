@@ -4,8 +4,8 @@ Go from ZERO to ONE learning to use the Arduino environment to build electronics
 The goal of this class is to introduce a beginner to the world of micro-electronics' development boards, get you started with the software, discuss how to control a few components, put together a straight forward project, and highlight a few available resources so that each participant has some direction on next actions they can take to learn more, build more, connect more when they leave.
 
 ## Prerequisites:
-1. Bring own laptop.  (No Chromebooks)
-INTRODUCTION VIDEO: https://www.youtube.com/watch?v=f_K5rICQLUk
+1. Bring own laptop.  (No Chromebooks)\
+INTRODUCTION VIDEO:  https://www.youtube.com/watch?v=f_K5rICQLUk
 1. Download Arduino IDE.
     * Go to https://www.arduino.cc/en/Guide/HomePage
     * Scroll down to "Install the Arduino IDE"
