@@ -7,7 +7,7 @@ The goal of this class is to introduce a beginner to the world of micro-electron
 1. Bring own laptop.  (No Chromebooks)\
 INTRODUCTION VIDEO:  https://youtu.be/OFLLUk-hDjs
 1. Download Arduino IDE.
-    * Go to https://www.arduino.cc/en/Guide/HomePage
+    * Go to https://www.arduino.cc/en/Main/Software
     * Scroll down to "Install the Arduino IDE"
     * Click on whichever operating system you have: Windows, Linux, Mac
     * Follow step by step directions
