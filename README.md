@@ -10,7 +10,8 @@ INTRODUCTION VIDEO:  https://youtu.be/OFLLUk-hDjs
     * Go to https://www.arduino.cc/en/Main/Software
     * Scroll down to "Install the Arduino IDE"
     * Click on whichever operating system you have: Windows, Linux, Mac
-    * Follow step by step directions
+    * Follow step by step directions  
+WINDOWS OS INSTALL VIDEO: https://youtu.be/pRSPnDzERRs
 1. Download files for this class.
     * Go to https://github.com/haleyma/Arduino-On-Ramp-Class
     * Click the green button to the right, choose download .zip
