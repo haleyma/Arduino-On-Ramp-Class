@@ -16,6 +16,7 @@ WINDOWS OS INSTALL VIDEO: https://youtu.be/pRSPnDzERRs
     * Go to https://github.com/haleyma/Arduino-On-Ramp-Class
     * Click the green button to the right, choose download .zip
     * Make a new folder on your computer(Maybe ArduinoOnRamp?) and extract into your folder.
+GITHUB FILES VIDEO:  https://youtu.be/ERs6w757rxs
 1. Download and install the CH340 USB serial driver.  (Required by these Arduino clones.)
     * Follow the instructions at https://github.com/DecaturMakers/CH340_drivers-Linux-Mac-Windows
 
